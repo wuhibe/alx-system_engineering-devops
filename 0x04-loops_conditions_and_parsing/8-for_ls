@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Script that displays Current Directory Content
+for filename in *;
+do
+	echo "$filename" | cut -d'-' -f2
+done
