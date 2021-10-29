@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Script that displays text indefinitely and display message on SIGTERM
+i=0
+while [ $i -le 3 ]
+do
+    trap "echo I am invincible!!!" SIGTERM
+    echo "To infinity and beyond"
+    sleep 2
+done
