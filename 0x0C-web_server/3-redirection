@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # redirecting to another page.
 
-str=$(echo "")
 apt-get update
 apt-get -y install nginx
 ufw allow 'Nginx HTTP'
@@ -26,7 +25,7 @@ echo "server {
 }
 " > /etc/nginx/sites-available/default
 
-if [[ "$(pgrep nginx)" == str ]]
+if [ "$(pgrep nginx)" -le 0 ]
 then
     service nginx start
 else
