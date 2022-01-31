@@ -24,7 +24,7 @@ def todofunc():
             count += 1
             titles.append(new[i].get('title'))
 
-    print("Employee {} is done with tasks({}/{})".format(name, count, size))
+    print("Employee {} is done with tasks({}/{}):".format(name, count, size))
     for i in range(0, count):
                 print("\t {}".format(titles[i]))
 
