@@ -26,7 +26,7 @@ def todocsv():
     with open("{}.csv".format(userid), 'w') as f:
         for i in range(0, size):
             f.write('"{}","{}","{}","{}"\n'.format(userid, name,
-                                                 stat[i], titles[i]))
+                                                   stat[i], titles[i]))
 
 if __name__ == "__main__":
     todocsv()
