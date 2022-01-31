@@ -19,18 +19,21 @@ def todojson():
     new = r.json()
     size = len(new)
     stat = []
-    task = []
-    usertasks = []
+    titles = []
     for i in range(0, size):
-        stat.append(new[i].get('completed'))
-        task.append(new[i].get('title'))
-    for i in range(0, size):
-        usertasks.append(dict([("task", "{}".format(task[i])),
-                               ("completed", stat[i]),
-                               ("username", "{}".format(name))]))
-    final = dict([("{}".format(userid), usertasks)])
+        if new[i].get('completed'):
+            stat.append("true")
+        else:
+            stat.append("false")
+        titles.append(new[i].get('title'))
     with open("{}.json".format(userid), 'w') as f:
-        f.write("{}".format(final))
+        f.write('{' + '"{}"'.format(userid)+': [')
+        for i in range(0, size - 1):
+            f.write('{{"task": "{}", "completed": {}, "username": "{}"}}, '
+                    .format(titles[i], stat[i], name))
+        f.write('{{"task": "{}", "completed": {}, "username": "{}"}}'
+                .format(titles[-1], stat[-1], name))
+        f.write(''']}''')
 
 if __name__ == "__main__":
     todojson()
