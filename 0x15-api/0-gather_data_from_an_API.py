@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''
-script that uses REST api to return info on user's TODO
+module that uses REST api to return info on user's TODO
 '''
 
 import requests
@@ -8,6 +8,7 @@ import sys
 
 
 def todofunc():
+    ''' function that gets todo tasks and prints the completed tasks '''
     r = requests.get('https://jsonplaceholder.typicode.com/users/{}'
                      .format(sys.argv[1]))
     new = r.json()
