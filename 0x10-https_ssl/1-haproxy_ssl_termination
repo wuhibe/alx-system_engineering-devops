@@ -4,7 +4,9 @@ global
 	group haproxy
 	maxconn 2048
 	tune.ssl.default-dh-param 2048
-
+	h1-case-adjust content-length Content-Length
+	h1-case-adjust x-served-by X-Served-By
+	h1-case-adjust server Server
 defaults
 	log	global
 	mode	http
@@ -22,19 +24,20 @@ defaults
 	errorfile 504 /etc/haproxy/errors/504.http
 
 frontend www-http
-    bind   0.0.0.0:80
+    bind   *:80
+    reqadd X-Forwarded-Proto:\ http
     default_backend web-backend
 
 frontend www-https
-    bind   0.0.0.0:443 ssl crt /etc/haproxy/cert/fullchain.pem
-    acl    letsencrypt-acl path_beg /.well-known/acme-challenge/
+    bind   *:443 ssl crt /etc/haproxy/cert/fullchain.pem
+    reqadd X-Forwarded-Proto:\ https
+    acl letsencrypt-acl path_beg /.well-known/acme-challenge/
     use_backend letsencrypt-backend if letsencrypt-acl
     default_backend web-backend
 
 backend web-backend
     balance roundrobin
-    redirect scheme https if !{ ssl_fc }
-    server 1026-web-01 34.139.190.16 check
+    server 1026-web-01 3.236.116.4 check
     server 1026-web-02 3.238.201.120 check
 
 backend letsencrypt-backend
