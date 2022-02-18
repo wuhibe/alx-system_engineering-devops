@@ -4,13 +4,13 @@ global
 	group haproxy
 	maxconn 2048
 	tune.ssl.default-dh-param 2048
-	h1-case-adjust content-length Content-Length
-	h1-case-adjust x-served-by X-Served-By
-	h1-case-adjust server Server
+
 defaults
 	log	global
 	mode	http
 	option	httplog
+	option  forwardfor
+	option  http-server-close
 	option	dontlognull
         timeout connect 5000
         timeout client  50000
@@ -33,6 +33,7 @@ frontend www-https
     reqadd X-Forwarded-Proto:\ https
     acl letsencrypt-acl path_beg /.well-known/acme-challenge/
     use_backend letsencrypt-backend if letsencrypt-acl
+    mode http
     default_backend web-backend
 
 backend web-backend
