@@ -12,7 +12,7 @@ frontend http
 	default_backend web-backend
 backend web-backend
     balance roundrobin
-    server 1026-web-01 34.139.190.16 check
+    server 1026-web-01 3.236.116.4 check
     server 1026-web-02 3.238.201.120 check
 EOF
 service haproxy restart
