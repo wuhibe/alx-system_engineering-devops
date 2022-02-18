@@ -3,16 +3,15 @@
 apt-get -y update
 apt-get -y upgrade
 apt-get -y install haproxy
-echo "ENABLED=1" >> /etc/default/haproxy
+sed -i 's/ENABLED=0/ENABLED=1/' /etc/default/haproxy
 cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxyORIGINAL.cfg
 cat >> /etc/haproxy/haproxy.cfg << EOF
-frontend http
-	bind *:80
-	mode http
-	default_backend web-backend
-backend web-backend
+    listen webapp 0.0.0.0:80
+    mode http
     balance roundrobin
-    server 1026-web-01 3.236.116.4 check
-    server 1026-web-02 3.238.201.120 check
+    option httpclose
+    option forwardfor
+    server 1026-web-01 3.236.116.4:80 check
+    server 1026-web-02 3.238.201.120:80 check
 EOF
 service haproxy restart
