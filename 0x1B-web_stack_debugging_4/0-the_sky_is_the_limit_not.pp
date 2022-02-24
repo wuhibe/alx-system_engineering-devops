@@ -1,6 +1,6 @@
-# increases the nginx limit to 15k
+# increases the nginx limit
 exec { 'fix file limit':
   onlyif  => 'test -e /etc/default/nginx',
-  command => 'sed -i 's/15/15000/' /etc/default/nginx; service nginx restart',
+  command => 'sed -i "5s/[0-9]\+/$( ulimit -n )/" /etc/default/nginx; service nginx restart',
   path    => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
 }
